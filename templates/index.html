@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask and HTML</title>
+</head>
+<body>
+    <h1>Flask와 HTML 연결하기</h1>
+    <button id="fetchData">데이터 가져오기</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('fetchData').onclick = function() {
+            fetch('/api/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = data.message;
+                });
+        };
+    </script>
+</body>
+</html>
