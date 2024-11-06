@@ -1,0 +1,39 @@
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu {
+    width: 28%;
+    height: 520px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+    box-shadow: 4px 4px 10px #ccc;
+    margin: 2vw;
+}
+.menu-name {
+    font-family: RiaSans-ExtraBold;
+    font-size: 3vw;
+    position: absolute;
+    top: 100px;
+    left: 40px;
+}
+.menu-img {
+    position: absolute;
+    width: 60%;
+    bottom: -55px; 
+    right: 40px;
+}
+
+.blue {
+    background-color: var(--blue);
+}
+.red {
+    background-color: var(--red);
+}
+.yellow {
+    background-color: var(--yellow);
+}
