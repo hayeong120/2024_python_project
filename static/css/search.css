@@ -1,0 +1,90 @@
+body {
+    height: auto;
+    position: relative;
+    background: var(--red);
+}
+.container {
+    width: 100vw;   height: auto;
+    position: absolute;
+    margin: 3vh 5vw;
+
+    background: url(../img/red.png) no-repeat;
+    background-size: 520px;
+    background-position: right 130px bottom -130px;
+}
+.box {
+    width: 90vw;    height: auto;
+    position: relative;
+    background-color: var(--box);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+    margin: 5vh 0;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5vh 0 4vh;
+}
+.search {
+    border: 3px solid var(--point-red);
+    background: rgba(222, 222, 222, 0.4) url(../img/search-red.png) no-repeat;
+    background-position: calc(100% - 20px) center;
+}
+
+
+.new {
+    width: 75vw;
+    margin: auto;
+}
+h1 {
+    font-size: 38px;
+    font-weight: bold;
+    margin: 3vh;
+}
+span {
+    color: #FD4B4B; 
+    font-weight: bold;
+    font-size: 40px;
+    margin-left: 0.5vw;
+}
+
+.book-box {
+    width: 75vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.book img {
+    width: auto;    height: 400px;
+    border-radius: var(--book-radius);
+}
+
+.content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2vh 1.5vh;
+}
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 0.8vh;
+}
+.sub-info {
+    display: flex;
+    flex-direction: row;
+
+    font-size: 20px;
+    color: #1F1F1F;
+}
+.sub-info p {
+    margin: 0 5px 0 0;
+}
+
+.top {
+    width: 75vw;
+    margin: 8vh auto;
+    padding-bottom: 10vh;
+}
