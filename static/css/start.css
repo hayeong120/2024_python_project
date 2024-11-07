@@ -40,3 +40,9 @@ body {
     margin: 5vh 0;
     box-shadow: var(--box-shadow);
 }
+
+button:hover {
+    color: #FB4949;
+    background-color: #FFAFB5;
+    border: none;
+}
