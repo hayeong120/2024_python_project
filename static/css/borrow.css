@@ -1,0 +1,49 @@
+body {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: var(--blue);
+}
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+
+    background: url(../img/blue.png) no-repeat;
+    background-size: 520px;
+    background-position: right 50px bottom -130px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.box {
+    width: 90vw;    height: 90vh;
+    position: relative;
+    background-color: var(--box);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+
+    /*display: flex;
+    flex-direction: column;
+    align-items: center;*/
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5vh;
+}
+
+.box p {
+    font-size: 30px;
+    color: #ccc;
+    
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
