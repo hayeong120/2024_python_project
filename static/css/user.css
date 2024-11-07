@@ -1,0 +1,51 @@
+body {
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: url('../img/books.png') no-repeat bottom fixed;
+    background-size: 100% auto;
+}
+
+.title-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.title {
+    font-family: 'EF_jejudoldam';
+    font-size: 7vw;
+    margin: 0.8vh 0;
+}
+.sub-title {
+    font-family: 'Pretendard-ExtraLight';
+    font-size: 1.5vw;
+    margin: 0.8vh 0;
+}
+
+.user-from {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3vh;
+}
+.user-from input {
+    width: 25vw;
+    height: 75px;
+    margin: 1.5vh;
+    box-shadow: 2px 2px 8px #ccc;
+}
+.user-info {
+    border: 2px solid var(--point-red);
+    border-radius: 15px;
+    font-size: 1.2vw;
+    box-sizing: border-box;
+    padding: 1.2vw 1.5vw;
+}
+.submit {
+    border: none;
+    border-radius: 15px;
+    background-color: var(--red);
+    font-size: 1.2vw;
+    color: var(--point-red);
+}

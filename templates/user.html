@@ -6,13 +6,17 @@
     <link rel="logo icon" type="image/x-icon" href="../static/img/red.png" />
     <title>도담도담</title>
     <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/start.css">
+    <link rel="stylesheet" href="../static/css/user.css">
 </head>
 <body>
     <div class="title-box">
         <h1 class="title">도담도담</h1>
         <h2 class="sub-title">도서관을 손안에, 더 쉽고 간편하게</h2>
-        <button class="start" onclick="location.href='user.html'">시작하기<img src="../static/img/start_arrow.png" alt=""></button>
     </div>
+    <form action="main.html" autocomplete="off" class="user-from">
+        <input type="number" class="user-info" placeholder="학번을 입력하세요.">
+        <input type="text" class="user-info" placeholder="이름을 입력하세요.">
+        <input type="submit" value="시작하기" class="submit">
+    </form>
 </body>
 </html>

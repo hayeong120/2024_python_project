@@ -9,6 +9,12 @@ a:link, a:visited { color: black; }
 li { list-style: none;}
 input { outline: none; }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 :root {
     --red: #FFAFB5;
     --blue: #ABE2FB;
