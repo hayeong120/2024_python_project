@@ -23,8 +23,8 @@ body {
 .management-box {
     position: relative;
     width: 35%; height: 70%;
-    border-radius: 20px;
-    background-color: #fff; opacity: 0.85;
+    border-radius: var(--radius);
+    background-color: var(--box);
     box-shadow: var(--box-shadow);
     margin: 3vw;
 }

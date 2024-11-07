@@ -19,12 +19,16 @@ input[type="number"]::-webkit-inner-spin-button {
     --red: #FFAFB5;
     --blue: #ABE2FB;
     --yellow: #FFF9BF;
+    --green: #8BE6BA;
 
     --point-red: #FD4B4B;
     --point-blue: #6089FA;
     --point-yellow: #FFDE6B;
+    --point-green: #00723B;
 
+    --box: rgba(255, 255, 255, 0.85);
     --box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+    --radius: 20px;
 }
 
 /* Pretendard Thin (100) */
