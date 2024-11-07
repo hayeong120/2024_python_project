@@ -1,0 +1,89 @@
+body {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: var(--red);
+}
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+
+    background: url(../img/red.png) no-repeat;
+    background-size: 520px;
+    background-position: right 50px bottom -130px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.box {
+    width: 90vw;    height: 90vh;
+    position: relative;
+    background-color: var(--box);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5vh;
+}
+.search {
+    border: 3px solid var(--point-red);
+    background: rgba(222, 222, 222, 0.4) url(../img/search-red.png) no-repeat;
+    background-position: calc(100% - 20px) center;
+}
+
+
+.book {
+    width: 65%; height: 60vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+.book img {
+    width: 400px;
+    height: auto;
+    border-radius: var(--book-radius);
+    box-shadow: var(--box-shadow);
+    margin-right: 3vw;
+}
+
+.content { }
+.title-box {
+    display: flex;
+    flex-direction: row;
+    margin: 2vh 0;
+}
+.title-box h1 {
+    font-size: 38px;
+    font-weight: bold;
+    margin-right: 1vw;
+}
+.title-box button {
+    font-size: 16px;
+    padding: 0 10px;
+}
+
+.sub-info {
+    display: flex;
+    flex-direction: row;
+    font-size: 22px;
+    margin: 3vh 0;
+}
+.sub-info p {
+    margin: 0 5px 0 0;
+}
+.book-info {
+    font-size: 21px;
+    line-height: 1.6;
+}
