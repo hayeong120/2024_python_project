@@ -11,7 +11,7 @@ body {
     overflow: hidden;
     position: relative;
     border-radius: 20px;
-    box-shadow: 4px 4px 10px #ccc;
+    box-shadow: var(--box-shadow);
     margin: 2vw;
 }
 .menu-name {

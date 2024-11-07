@@ -33,7 +33,7 @@ body {
     width: 25vw;
     height: 75px;
     margin: 1.5vh;
-    box-shadow: 2px 2px 8px #ccc;
+    box-shadow: var(--box-shadow);
 }
 .user-info {
     border: 2px solid var(--point-red);

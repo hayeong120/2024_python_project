@@ -1,0 +1,42 @@
+body {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: var(--blue);
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+
+    background: url(../img/blue.png) no-repeat;
+    background-size: 520px;
+    background-position: right 50px bottom -130px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.management-box {
+    position: relative;
+    width: 35%; height: 70%;
+    border-radius: 20px;
+    background-color: #fff; opacity: 0.85;
+    box-shadow: var(--box-shadow);
+    margin: 3vw;
+}
+.management-name {
+    font-family: RiaSans-ExtraBold;
+    font-size: 100px;
+    position: absolute;
+    top: 90px;
+    left: 75px;
+}
+.management-img {
+    position: absolute;
+    left: 110px;
+    bottom: 50px;
+}
