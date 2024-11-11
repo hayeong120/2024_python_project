@@ -9,6 +9,92 @@
     <link rel="stylesheet" href="../static/css/myBook.css">
 </head>
 <body>
-    my book
+    <div class="container">
+        <div class="box">
+            <img src="../static/img/big-logo.png" alt="" class="logo">
+            <div class="panel">
+                <div class="user-box user">
+                    <p class="user-name"><span>장하영</span>님</p>
+                    <div class="user-class">
+                        <p class="info-title">학년·반·번호</p>
+                        <p class="info-content">2학년 2반 11번</p>
+                    </div>
+                    <div class="user-book">
+                        <p class="info-title">도서 대출</p>
+                        <p class="info-content">3권</p>
+                    </div>
+                </div>
+                <div class="user-box read">
+                    <h3>지금까지 읽은 책</h3>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="book">
+                        <div class="read-book">
+                            <p class="info-title">읽은 권수</p>
+                            <p class="info-content">3권</p>
+                        </div>
+                        <div class="recommend-book">
+                            <p class="info-title">권장 권수</p>
+                            <p class="info-content">10권</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-box">
+                <h2>대출 현황</h2>
+                <div class="header">
+                    <p class="book-info">도서 정보</p>
+                    <p style="margin-left: 60px;">대출일 </p>
+                    <p  style="margin-left: 30px;">반납(예정)일</p>
+                    <p>상태</p>
+                    <p>남은 기간</p>
+                </div>
+                <ul class="borrow list">
+                    <div class="info-box">
+                        <div class="book-info">
+                            <p class="title">채식주의자</p>
+                            <div class="sub-info">
+                                <p class="writer">한강 지음</p>
+                                <p class="publisher">창비</p> 
+                            </div>
+                        </div>
+                        <p class="borrow date">2024-10-28</p>
+                        <p class="return date">2024-11-11</p>
+                        <p class="state">대출중</p>
+                        <p class="remain">6일 남음</p>
+                    </div>
+                    <hr>
+                </ul>
+            </div>
+            
+            <div class="list-box">
+                <h2>예약 현황</h2>
+                <div class="header">
+                    <p class="book-info">도서 정보</p>
+                    <p style="margin-left: 70px;">예약 신청일</p>
+                    <p style="margin-left: 30px;">반납(예정)일</p>
+                    <p>예약 순위</p>
+                </div>
+                <ul class="reserve list">
+                    <div class="info-box">
+                        <div class="book-info">
+                            <p class="title">채식주의자</p>
+                            <div class="sub-info">
+                                <p class="writer">한강 지음</p>
+                                <p class="publisher">창비</p> 
+                            </div>
+                        </div>
+                        <p class="reserve date">2024-10-28</p>
+                        <p class="return date">2024-11-11</p>
+                        <p class="ranking">3위</p>
+                    </div>
+                    <hr>
+                </ul>
+            </div>
+
+        </div>
+    </div>
 </body>
 </html>

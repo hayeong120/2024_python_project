@@ -1,0 +1,190 @@
+body {
+    height: auto;
+    position: relative;
+    background: var(--yellow);
+}
+.container {
+    width: 100vw;   height: auto;
+    position: absolute;
+
+    background: url(../img/yellow.png) no-repeat;
+    background-size: 520px;
+    background-position: right 50px bottom -130px;
+}
+.box {
+    width: 90vw;    height: auto;
+    position: relative;
+    background-color: var(--box);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+    margin: 6vh 5vw;
+    box-sizing: border-box;
+    padding-bottom: 10vh;
+}
+
+
+.logo {
+    width: 30%;
+    margin: 10vh 30vw;
+}
+.panel {
+    display: flex;
+    flex-direction: row;
+}
+.user-box {
+    border: var(--point-yellow) 2px solid;
+    border-radius: 15px;
+    padding: 3vh 2.5vw;
+    width: 30%; height: auto;
+}
+
+.user {
+    margin-left: 9vw;
+    margin-right: 7vw;
+}
+.user-name {
+    font-size: 40px;
+    width: 190px;
+    background: url(../img/smile.png) no-repeat right;
+    margin: 1.5vh 0;
+}
+.user-name span {
+    font-size: 40px;
+    font-weight: bold;
+}
+.user-class {
+    display: flex;
+    flex-direction: row;
+    margin: 1vh 0;
+}
+.user-book {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.5vh;
+}
+.user .info-title, 
+.user .info-content {
+    font-size: 24px;
+}
+.info-title {
+    font-family: 'Pretendard-SemiBold';
+}
+.info-content {
+    font-family: 'Pretendard-SemiBold';
+    color: #6F6F6F;
+}
+.info-title::after {
+    content: "|";
+    margin: 0 5px;
+    color: #C7C7C7;
+}
+
+
+.read h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 1.5vh 0;
+}
+.progress-bar {
+    overflow: hidden;
+    position: relative;
+    height: 35px;
+    border-radius: 10px;
+    border: 2px solid #FFC600;
+    margin: 2vh 0;
+}
+.progress {
+    height: 100%;
+    background-color: var(--point-yellow);
+    width: 40%;
+}
+.book {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5vh;
+}
+.read .info-title, 
+.read .info-content {
+    font-size: 20px;
+}
+.read-book {
+    display: flex;
+    flex-direction: row;
+}
+.recommend-book {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.list-box { }
+h2 {
+    position: relative;
+    margin: 10vh 15vh 0;
+    font-size: 2.3vw;
+}
+.header {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    background-color: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+    font-size: 18px;
+
+    box-sizing: border-box;
+    padding: 3vh 5vh;
+    margin: 3vh 15vh; 
+}
+
+.list { }
+.info-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    padding: 2vh 5vh;
+    margin: 2vh 15vh;
+}
+.book-info {
+    display: flex;
+    flex-direction: column;
+    padding-right: 15vw;
+}
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.sub-info {
+    display: flex;
+    flex-direction: row;
+}
+.writer, .publisher {
+    font-size: 18px;
+}
+.writer::after {
+    content: "|";
+    margin: 0 5px;
+}
+.date, .state, .remain, .ranking {
+    font-size: 20px;
+}
+.remain {
+    color: red;
+    
+}
+.ranking {
+    margin-right: 15px;
+}
+hr {
+    width: auto;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0 15vh;
+}
+
