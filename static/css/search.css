@@ -5,12 +5,11 @@ body {
 }
 .container {
     width: 100vw;   height: auto;
-    position: absolute;
-    margin: 3vh 5vw;
+    position: absolute; 
 
     background: url(../img/red.png) no-repeat;
     background-size: 520px;
-    background-position: right 130px bottom -130px;
+    background-position: right 50px bottom -130px;
 }
 .box {
     width: 90vw;    height: auto;
@@ -18,7 +17,7 @@ body {
     background-color: var(--box);
     border-radius: var(--radius);
     box-shadow: var(--box-shadow);
-    margin: 5vh 0;
+    margin: 6vh 5vw;
 }
 
 .search-box {
@@ -79,10 +78,10 @@ span {
     font-size: 20px;
     color: #1F1F1F;
 }
-.sub-info p {
-    margin: 0 5px 0 0;
+.writer::after {
+    content: "|";
+    margin: 0 5px;
 }
-
 .top {
     width: 75vw;
     margin: 8vh auto;

@@ -46,6 +46,9 @@ body {
     padding: 3vh 5vh;
     margin: 3vh 10vh; 
 }
+.blank {
+    width: 70px;
+}
 
 .book-list { }
 .info-box {
@@ -76,7 +79,10 @@ body {
 }
 .writer, .publisher {
     font-size: 18px;
-    margin: 0 5px 0 0;
+}
+.writer::after {
+    content: "|";
+    margin: 0 5px;
 }
 
 .date, .state {
