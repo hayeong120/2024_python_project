@@ -28,7 +28,7 @@
                                     <p class="publisher">창비</p> 
                                 </div>
                             </div>
-                            <button>대출<br>예약</button>
+                            <button onclick="openPopup()">대출<br>예약</button>
                         </div>
                     </div>
 
@@ -42,7 +42,7 @@
                                     <p class="publisher">창비</p> 
                                 </div>
                             </div>
-                            <button>대출<br>예약</button>
+                            <button onclick="openPopup()">대출<br>예약</button>
                         </div>
                     </div>
 
@@ -56,7 +56,7 @@
                                     <p class="publisher">창비</p> 
                                 </div>
                             </div>
-                            <button>대출<br>예약</button>
+                            <button onclick="openPopup()">대출<br>예약</button>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                                     <p class="publisher">창비</p> 
                                 </div>
                             </div>
-                            <button>대출<br>예약</button>
+                            <button onclick="openPopup()">대출<br>예약</button>
                         </div>
                     </div>
 
@@ -89,7 +89,7 @@
                                     <p class="publisher">창비</p> 
                                 </div>
                             </div>
-                            <button>대출<br>예약</button>
+                            <button onclick="openPopup()">대출<br>예약</button>
                         </div>
                     </div>
 
@@ -103,12 +103,28 @@
                                     <p class="publisher">창비</p> 
                                 </div>
                             </div>
-                            <button>대출<br>예약</button>
+                            <button onclick="openPopup()">대출<br>예약</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- popup -->
+    <!-- 첫 번째 팝업 창 -->
+    <div class="popup">
+        <p>도서를 대출하시겠습니까?</p>
+        <button onclick="confirmReturn()">확인</button>
+    </div>
+
+    <!-- 두 번째 팝업 창 (반납 완료 메시지) -->
+    <div class="confirmation-popup">
+        <img src="../static/img/check.png" alt="" class="successful-img">
+        <p>도서가 대출되었습니다:)</p>
+        <span class="date">반납일 : 2024-11-11</span>
+    </div>
+
+    <script src="../static/js/search.js"></script>
 </body>
 </html>
