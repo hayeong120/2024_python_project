@@ -1,23 +1,35 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask and HTML</title>
+    <title>Book Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Flask와 HTML 연결하기</h1>
-    <button id="fetchData">데이터 가져오기</button>
-    <div id="result"></div>
+    <form action="/search" method="get">
+        <input type="search" name="keyword" placeholder="도서명 또는 저자를 입력하세요." required>
+        <button type="submit">검색</button>
+    </form>
 
-    <script>
-        document.getElementById('fetchData').onclick = function() {
-            fetch('/api/data')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('result').innerText = data.message;
-                });
-        };
-    </script>
+    <ul>
+        {% if book %}
+        <div class="book">
+            <img src="{{ book.cover }}" alt="Book Cover">
+            <div class="content">
+                <div class="title-box">
+                    <h1>{{ book.title }}</h1>
+                    <button>대출 예약</button>
+                </div>
+                <div class="sub-info">
+                    <p class="writer">저자 : {{ book.author }}</p>
+                    <p class="publisher">출판사 : {{ book.publisher }}</p>
+                    <p class="year">출판년도 : {{ book.pubDate }}</p> 
+                </div>
+                <p class="book-info">{{ book.description }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </ul>
 </body>
 </html>
