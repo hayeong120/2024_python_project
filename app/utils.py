@@ -11,7 +11,7 @@ def fetch_books(keyword):
         'start': 1,
         'SearchTarget': 'Book',
         'output': 'js',
-        'Version': '20131101'
+        'Version': '20131101'  
     }
     try:
         response = requests.get(api_url, params=params)
