@@ -37,20 +37,19 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .search {
-    width: 60vw;    height: 9vh;
+    width: 50vw;    height: 9vh;
     font-size: 24px;
 
     border: 3px solid var(--point-blue);
     border-radius: var(--radius);
-    background: rgba(222, 222, 222, 0.4) url(../img/search-blue.png) no-repeat;
-    background-position: calc(100% - 20px) center;
+    background: rgba(222, 222, 222, 0.4);
 
     box-sizing: border-box;
     padding: 1.2vw 1.5vw;
     margin: 2vw;
 }
 
-button {
+.button {
     color: #52DA98;
     border: #52DA98 1px solid;
     background-color: transparent;
@@ -58,10 +57,74 @@ button {
     border-radius: 5px;
     font-size: 18px;
 }
-button:hover {
+.button:hover {
     color: var(--point-green);
     background-color: var(--green);
     border: var(--point-green) 1px solid;
+}
+
+/* 첫 번째 팝업 배경 스타일 */
+.popup-background {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    width: 100%;    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 첫 번째 팝업 창 스타일 */
+.popup {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    top: 50%;   left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 4vh;
+    background-color: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* 두 번째 팝업 창 스타일 (반납 완료 메시지) */
+.confirmation-popup {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    top: 50%;   left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 4vh;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* 팝업 내 텍스트 스타일 */
+.popup p {
+    font-family: Pretendard-Medium;
+    font-size: 30px;
+    padding: 0 3vh 2vh;
+}
+.confirmation-popup p {
+    font-family: Pretendard-Medium;
+    font-size: 45px;
+    padding: 0 3vh 2vh;
+}
+
+.successful-img {
+    width: 210px;
+}
+
+/* 팝업 내 버튼 스타일 */
+.popup button {
+    padding: 10px 20px;
+    background-color: #45a049;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.popup button:hover {
+    background-color: var(--point-green);
 }
 
 /* Pretendard Thin (100) */
