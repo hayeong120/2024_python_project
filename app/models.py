@@ -3,7 +3,7 @@ from app import app
 
 def get_mysql_connection():
     """
-    MySQL 연결 객체 생성.
+    MySQL 연결 객체 생성
     """
     return pymysql.connect(
         host=app.config['MYSQL_HOST'],
@@ -15,7 +15,7 @@ def get_mysql_connection():
 
 def insert_user(user_id, user_name):
     """
-    사용자를 데이터베이스에 삽입.
+    사용자를 데이터베이스에 삽입
     """
     connection = get_mysql_connection()
     try:
@@ -34,7 +34,7 @@ def insert_user(user_id, user_name):
 
 def get_latest_user():
     """
-    가장 최근에 삽입된 사용자 데이터 가져오기.
+    가장 최근에 삽입된 사용자 데이터 가져오기
     """
     connection = get_mysql_connection()
     try:
