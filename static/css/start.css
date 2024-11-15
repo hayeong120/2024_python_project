@@ -1,9 +1,6 @@
 body {
     height: 100vh;
     display: flex;
-    flex-direction: column; /* 요소 수직 정렬 */
-    align-items: center; /* 요소 가운데 정렬 */
-    justify-content: space-between;
     background: url('../img/books.png') no-repeat bottom;
     background-size: 100% auto;
 }
@@ -24,25 +21,18 @@ body {
     font-size: 1.8vw;
     margin: 0.8vh 0;
 }
+
 .start {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 45%;
-    height: 6vh;
+    width: 45%;     height: 5vh;
 
-    border: none;
     border-radius: 50px;
     font-size: 2vh;
     color: #FB4949;
     background-color: #FFAFB5;
-    padding: 1.2vh 1.5vw;
+    padding: 1.2vh 2vw;
     margin: 5vh 0;
     box-shadow: var(--box-shadow);
-}
-
-button:hover {
-    color: #FB4949;
-    background-color: #FFAFB5;
-    border: none;
 }
