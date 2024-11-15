@@ -56,7 +56,6 @@ body {
     width: 65%; height: 60vh;
     display: flex;
     align-items: center;
-    
 }
 .book-cover {
     height: 400px;
@@ -68,6 +67,7 @@ body {
 .title-box {
     display: flex;
     flex-direction: row;
+    align-items: center;
     margin: 2vh 0;
 }
 .title-box h1 {
