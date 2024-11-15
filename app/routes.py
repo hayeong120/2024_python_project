@@ -52,7 +52,7 @@ def borrow():
 
 # 사용자 페이지
 @app.route('/myBook')
-def my_book():
+def myBook():
     return render_template('myBook.html')
 
 # 책 검색 페이지 (인기도서와 신착도서 포함)

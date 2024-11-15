@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="logo icon" type="image/x-icon" href="../static/img/red.png" />
+    <link rel="logo icon" type="image/x-icon" href="{{ url_for('static', filename='img/red.png') }}" />
     <title>도담도담</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <div class="menu blue" onclick="location.href='management.html'">
+    <a href="{{ url_for('management') }}" class="menu blue">
         <h2 class="menu-name">대출 및 반납</h2>
-        <img src="../static/img/blue.png" alt="" class="menu-img">
-    </div>
-    <div class="menu red" onclick="location.href='search.html'">
+        <img src="{{ url_for('static', filename='img/blue.png') }}" alt="" class="menu-img">
+    </a>
+    <a href="{{ url_for('search') }}" class="menu red">
         <h2 class="menu-name">도서 검색</h2>
-        <img src="../static/img/red.png" alt="" class="menu-img">
-    </div>
-    <div class="menu yellow" onclick="location.href='myBook.html'">
+        <img src="{{ url_for('static', filename='img/red.png') }}" alt="" class="menu-img">
+    </a>
+    <a href="{{ url_for('myBook') }}" class="menu yellow">
         <h2 class="menu-name">나의 도서</h2>
-        <img src="../static/img/yellow.png" alt="" class="menu-img">
-    </div>
+        <img src="{{ url_for('static', filename='img/yellow.png') }}" alt="" class="menu-img">
+    </a>
 </body>
 </html>
