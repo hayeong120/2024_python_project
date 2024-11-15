@@ -1,7 +1,8 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, jsonify
 from app import app
-from app.models import insert_user, get_latest_user
+from app.models import insert_user, get_latest_user, save_borrow_request
 from app.utils import fetch_books
+from datetime import datetime, timedelta
 
 # 초기 시작 페이지
 @app.route('/')
@@ -46,9 +47,56 @@ def return_page():
     return render_template('return.html')
 
 # 대출 페이지
-@app.route('/borrow')
+@app.route('/borrow', methods=['GET', 'POST'])
 def borrow():
-    return render_template('borrow.html')
+    book = None
+    user = get_latest_user()
+
+    if request.method == 'GET':
+        # 학번 조회
+        user_id = request.args.get('user_id')  
+        if user_id:
+            user = get_user_by_id(user_id) 
+            if not user:
+                return "Error: 사용자 정보를 찾을 수 없습니다.", 404
+
+        # 도서 검색
+        keyword = request.args.get('keyword')
+        if keyword:
+            book_data = fetch_books(keyword)
+            if book_data and 'item' in book_data:
+                first_book = book_data['item'][0]
+                book = {
+                    'title': first_book['title'].split(' - ')[0],  # 제목에서 첫 부분만 가져오기
+                    'author': first_book['author'].split(' (')[0].strip(),  # 저자명만 가져오기
+                    'publisher': first_book['publisher'],
+                    'pubDate': first_book['pubDate'][:4],  # 출판년도만 가져오기
+                    'description': first_book['description'],
+                    'cover': first_book['cover']
+                }
+
+    # 대출 도서 저장
+    elif request.method == 'POST':
+        user_id = request.form.get('user_id')
+        book_title = request.form.get('book_title')
+        author = request.form.get('author')
+        publisher = request.form.get('publisher')
+
+        # 데이터 유효성 검사
+        if not user_id or not book_title or not author or not publisher:
+            return jsonify({'success': False, 'message': '모든 필드를 입력하세요'}), 400
+
+        # 대출일과 반납일 계산
+        borrow_date = datetime.now().strftime('%Y-%m-%d')
+        return_date = (datetime.now() + timedelta(weeks=2)).strftime('%Y-%m-%d')
+
+        # 데이터베이스 저장
+        if save_borrow_request(user_id, book_title, author, publisher, borrow_date, return_date):
+            return jsonify({'success': True, 'return_date': return_date})
+        else:
+            return jsonify({'success': False}), 500
+
+    return render_template('borrow.html', book=book, user=user)
 
 # 사용자 페이지
 @app.route('/myBook')

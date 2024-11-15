@@ -3,20 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="logo icon" type="image/x-icon" href="../static/img/red.png" />
+    <link rel="logo icon" type="image/x-icon" href="{{ url_for('static', filename='img/red.png') }}" />
     <title>도담도담</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/borrow.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/borrow.css') }}">
 </head>
 <body>
     <div class="container">
         <div class="box">
             <div class="search-box">
-                <img src="../static/img/logo.png" alt="" onclick="location.href='main.html'">
-                <input type="search" class="search" placeholder="도서명 또는 저자를 입력하세요.">
+                <a href="{{ url_for('main') }}">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+                </a>
+                <form action="{{ url_for('borrow') }}" method="get" class="search-input">
+                    <input type="search" name="keyword" class="search" autocomplete="off" placeholder="도서명을 입력하세요.">
+                    <button type="submit" class="search-btn">
+                        <img src="{{ url_for('static', filename='img/search-blue.png') }}" alt="검색" class="search-img">
+                    </button>
+                </form>
             </div>
-            <p>도서를 검색해 주세요.</p>
+
+            {% if book %}
+            <div class="book-box">
+                <img src="{{ book.cover }}" alt="Book Cover" class="book-cover">
+                <div class="content">
+                    <div class="title-box">
+                        <h1>{{ book.title }}</h1>
+                        <form action="{{ url_for('borrow') }}" method="POST" id="borrow-form">
+                            <input type="hidden" name="user_id" value="{{ user.user_id if user else '' }}">
+                            <input type="hidden" name="book_title" value="{{ book.title }}">
+                            <input type="hidden" name="author" value="{{ book.author }}">
+                            <input type="hidden" name="publisher" value="{{ book.publisher }}">
+                            <input type="submit" class="button" onclick="openPopup()" value="대출예약"></input>
+                        </form>
+                    </div>
+                    <div class="sub-info">
+                        <p class="writer">저자 : {{ book.author }}</p>
+                        <p class="publisher">출판사 : {{ book.publisher }}</p>
+                        <p class="year">출판년도 : {{ book.pubDate }}</p> 
+                    </div>
+                    <p class="description">{{ book.description }}</p>
+                </div>
+            </div>
+            {% else %}
+            <p class="none">도서를 검색해 주세요.</p>
+            {% endif %}
+
         </div>
     </div>
+
+    <!-- popup -->
+    <!-- 첫 번째 팝업 창 -->
+    <div class="popup">
+        <p>도서를 대출하시겠습니까?</p>
+        <button onclick="confirmReturn()">확인</button>
+    </div>
+
+    <!-- 두 번째 팝업 창 (반납 완료 메시지) -->
+    <div class="confirmation-popup">
+        <img src="../static/img/check.png" alt="성공" class="successful-img">
+        <p>도서가 대출되었습니다:)</p>
+        <span id="return-date" class="date"></span>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
 </body>
 </html>

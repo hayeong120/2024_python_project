@@ -5,8 +5,7 @@ body {
     background: var(--blue);
 }
 .container {
-    width: 100vw;
-    height: 100vh;
+    width: 100vw;   height: 100vh;
     position: absolute;
 
     background: url(../img/blue.png) no-repeat;
@@ -25,19 +24,87 @@ body {
     border-radius: var(--radius);
     box-shadow: var(--box-shadow);
 
-    /*display: flex;
+    display: flex;
     flex-direction: column;
-    align-items: center;*/
+    align-items: center;
 }
+
 
 .search-box {
     display: flex;
     align-items: center;
-    justify-content: center;
     margin-top: 5vh;
 }
+.search-input {
+    display: flex;
+    align-items: center;
+}
+.search {
+    border: 3px solid var(--point-blue);
+    margin-right: 1.5vw;
+}
+.search-btn {
+    border: none;
+    background-color: transparent;
+}
+.search-img {
+    width: 50px;
+}
 
-.box p {
+
+.book-box {
+    width: 65%; height: 60vh;
+    display: flex;
+    align-items: center;
+    
+}
+.book-cover {
+    height: 400px;
+    border-radius: var(--book-radius);
+    box-shadow: var(--box-shadow);
+    margin-right: 3vw;
+}
+
+.title-box {
+    display: flex;
+    flex-direction: row;
+    margin: 2vh 0;
+}
+.title-box h1 {
+    font-size: 38px;
+    font-weight: bold;
+    margin-right: 1vw;
+}
+.title-box button {
+    font-size: 16px;
+    padding: 0 10px;
+}
+
+.sub-info {
+    display: flex;
+    flex-direction: row;
+    font-size: 24px;
+    margin: 3vh 0;
+}
+.sub-info p {
+    font-family: 'Pretendard-Medium';
+}
+.writer::after {
+    content: "|";
+    margin: 0 5px;
+    color: #6F6F6F;
+}
+.publisher::after {
+    content: "|";
+    margin: 0 5px;
+    color: #6F6F6F;
+}
+.description {
+    font-size: 21px;
+    line-height: 1.6;
+}
+
+.none {
     font-size: 30px;
     color: #ccc;
     

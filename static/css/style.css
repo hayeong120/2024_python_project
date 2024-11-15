@@ -98,18 +98,23 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* 팝업 내 텍스트 스타일 */
 .popup p {
-    font-family: Pretendard-Medium;
+    font-family: 'Pretendard-Medium';
     font-size: 30px;
     padding: 0 3vh 2vh;
 }
 .confirmation-popup p {
-    font-family: Pretendard-Medium;
+    font-family: 'Pretendard-Medium';
     font-size: 45px;
     padding: 0 3vh 2vh;
 }
 
 .successful-img {
     width: 210px;
+}
+.date {
+    font-size: 30px;
+    color: #808080;
+    margin-bottom: 5vh;
 }
 
 /* 팝업 내 버튼 스타일 */
