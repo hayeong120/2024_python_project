@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="logo icon" type="image/x-icon" href="../static/img/red.png" />
+    <link rel="logo icon" type="image/x-icon" href="{{ url_for('static', filename='img/red.png') }}" />
     <title>도담도담</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/return.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/return.css') }}">
 </head>
 <body>
     <div class="container">
@@ -14,35 +14,45 @@
             <h2>나의 대출 도서</h2>
             <div class="header">
                 <p class="book-info">도서 정보</p>
-                <p style="margin-left: 60px;">대출일</p>
-                <p>반납(예정)일</p>
+                <p>대출일</p>
+                <p style="margin-left: 15px;">반납(예정)일</p>
                 <p>상태</p>
                 <p class="blank"></p>
             </div>
             <ul class="book-list">
-                <div class="info-box">
-                    <div class="book-info">
-                        <p class="title">채식주의자</p>
-                        <div class="sub-info">
-                            <p class="writer">한강 지음</p>
-                            <p class="publisher">창비</p> 
+                {% for book in books %}
+                <div id="wrapper-{{ book.id }}" class="info-wrapper">
+                    <div class="info-box" id="book-{{ book.id }}">
+                        <div class="book-info">
+                            <p class="title">{{ book.book_title }}</p>
+                            <div class="sub-info">
+                                <p class="writer">{{ book.author }}</p>
+                                <p class="publisher">{{ book.publisher }}</p>
+                            </div>
                         </div>
+                        <p class="borrow date">{{ book.borrow_date }}</p>
+                        <p class="return date">{{ book.return_date }}</p>
+                        <p class="state {% if book.status == '연체' %}status-overdue{% else %}status-loan{% endif %}">
+                            {{ book.status }}
+                        </p>
+                        <form>
+                            <button type="button" class="button" data-book-id="{{ book.id }}" onclick="openReturnPopup(this)">도서 반납</button>
+                        </form>
+                        
                     </div>
-                    <p class="borrow date">2024-10-28</p>
-                    <p class="return date">2024-11-11</p>
-                    <p class="state">대출중</p>
-                    <button onclick="openPopup()">도서 반납</button>
+                    <hr>
                 </div>
-                <hr>
+                {% endfor %}
             </ul>
         </div>
     </div>
 
     <!-- popup -->
     <!-- 첫 번째 팝업 창 -->
-    <div class="popup">
+    <div class="popup return-popup">
         <p>도서를 반납하시겠습니까?</p>
         <button onclick="confirmReturn()">확인</button>
+    <button onclick="closeReturnPopup()">취소</button>
     </div>
 
     <!-- 두 번째 팝업 창 (반납 완료 메시지) -->
@@ -51,6 +61,6 @@
         <p>도서 반납이 정상적으로<br>완료되었습니다!</p>
     </div>
 
-    <script src="../static/js/popup.js"></script>
+    <script src="{{ url_for('static', filename='js/return.js') }}"></script>
 </body>
 </html>

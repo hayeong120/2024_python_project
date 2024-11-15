@@ -1,5 +1,6 @@
 let formData = null; // 전역 변수로 폼 데이터를 저장
 
+// 도서 대출 폼 제출 이벤트 리스너
 document.querySelector('#borrow-form').addEventListener('submit', function (e) {
     e.preventDefault(); // 기본 제출 동작 방지
 
@@ -7,28 +8,28 @@ document.querySelector('#borrow-form').addEventListener('submit', function (e) {
     formData = new FormData(this);
 
     // 첫 번째 팝업 열기
-    openPopup();
+    openBorrowPopup();
 });
 
-// 첫 번째 팝업 열기
-function openPopup() {
+// 대출 팝업 열기
+function openBorrowPopup() {
     document.querySelector('.popup').style.display = 'block';
 }
 
-// 첫 번째 팝업 닫기
-function closePopup() {
+// 대출 팝업 닫기
+function closeBorrowPopup() {
     document.querySelector('.popup').style.display = 'none';
 }
 
-// 도서 반납 확인 버튼 클릭 시 호출되는 함수
-function confirmReturn() {
-    closePopup(); // 첫 번째 팝업 닫기
+// 대출 확인 버튼 클릭 시 호출되는 함수
+function confirmBorrow() {
+    closeBorrowPopup(); // 첫 번째 팝업 닫기
 
-    // 두 번째 팝업 로직으로 이동하기 전에 fetch 호출
+    // 서버에 대출 요청 전송
     fetchBorrowRequest();
 }
 
-// fetch 요청을 별도 함수로 분리
+// 서버에 대출 요청
 function fetchBorrowRequest() {
     fetch(document.querySelector('#borrow-form').action, {
         method: 'POST',
@@ -44,9 +45,12 @@ function fetchBorrowRequest() {
             if (data.success) {
                 const returnDate = data.return_date;
                 document.getElementById('return-date').textContent = `반납일 : ${returnDate}`;
-                openConfirmationPopup(); // 성공 팝업 표시
+                openBorrowConfirmationPopup();
+            } else if (data.message && data.message.includes('대출 한도 초과')) {
+                console.log('대출 한도 초과 팝업 열기');
+                openBorrowLimitPopup();
             } else {
-                alert(`대출 예약에 실패했습니다: ${data.message || '알 수 없는 오류'}`);
+                alert('대출 예약에 실패했습니다: ' + (data.message || '알 수 없는 오류'));
             }
         })
         .catch(error => {
@@ -55,15 +59,28 @@ function fetchBorrowRequest() {
         });
 }
 
-// 두 번째 팝업 열기 (반납 완료 메시지)
-function openConfirmationPopup() {
+// 대출 성공 팝업 열기
+function openBorrowConfirmationPopup() {
     document.querySelector('.confirmation-popup').style.display = 'block';
 
-    // 2초 후에 두 번째 팝업 자동 닫기
-    setTimeout(closeConfirmationPopup, 2000);
+    // 2초 후에 팝업 자동 닫기
+    setTimeout(closeBorrowConfirmationPopup, 2000);
 }
 
-// 두 번째 팝업 닫기
-function closeConfirmationPopup() {
+// 대출 성공 팝업 닫기
+function closeBorrowConfirmationPopup() {
     document.querySelector('.confirmation-popup').style.display = 'none';
+}
+
+// 대출 초과 팝업 열기
+function openBorrowLimitPopup() {
+    document.querySelector('.limit-popup').style.display = 'block';
+
+    // 2초 후에 두 번째 팝업 자동 닫기
+    setTimeout(closeBorrowLimitPopup, 2000);
+}
+
+// 대출 초과 팝업 닫기
+function closeBorrowLimitPopup() {
+    document.querySelector('.limit-popup').style.display = 'none';
 }

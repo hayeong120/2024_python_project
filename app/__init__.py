@@ -15,4 +15,7 @@ app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
 app.config['MYSQL_DATABASE'] = 'Dodam_db'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
+# 비밀 키 설정
+app.secret_key = os.getenv('SECRET_KEY')
+
 from app import routes

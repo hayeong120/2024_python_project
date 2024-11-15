@@ -56,16 +56,23 @@
     <!-- 첫 번째 팝업 창 -->
     <div class="popup">
         <p>도서를 대출하시겠습니까?</p>
-        <button onclick="confirmReturn()">확인</button>
+        <button onclick="confirmBorrow()">확인</button>
+        <button onclick="closeBorrowPopup()">취소</button>
     </div>
 
-    <!-- 두 번째 팝업 창 (반납 완료 메시지) -->
+    <!-- 대출 초과 알림 팝업 -->
+    <div class="limit-popup">
+        <img src="../static/img/plus.png" alt="초과" class="excess-img">
+        <p>대출 횟수를<br>초과했습니다.</p>
+    </div>
+
+    <!-- 대출 완료 알림 팝업 -->
     <div class="confirmation-popup">
         <img src="../static/img/check.png" alt="성공" class="successful-img">
         <p>도서가 대출되었습니다:)</p>
-        <span id="return-date" class="date"></span>
+        <span id="return-date" class="popup-date"></span>
     </div>
 
-    <script src="{{ url_for('static', filename='js/popup.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/borrow.js') }}"></script>
 </body>
 </html>

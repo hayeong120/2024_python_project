@@ -65,7 +65,7 @@ body {
 .book-info {
     display: flex;
     flex-direction: column;
-    padding-right: 15vw;
+    width: 25vw;
 }
 .title {
     font-size: 24px;
@@ -82,11 +82,18 @@ body {
 .writer::after {
     content: "|";
     margin: 0 5px;
+    color: #6F6F6F;
 }
 .date, .state {
+    font-family: 'Pretendard-Medium';
     font-size: 20px;
 }
-.state { }
+.status-loan { /* 대출중 */
+    color: #00A354;
+}
+.status-overdue { /* 연체 */
+    color: #D30000;
+}
 hr {
     width: 85%;
     border-top: 1px solid rgba(0, 0, 0, 0.1);

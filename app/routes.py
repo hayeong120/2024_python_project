@@ -1,6 +1,6 @@
-from flask import render_template, request, redirect, url_for, jsonify
+from flask import render_template, request, redirect, url_for, jsonify, session
 from app import app
-from app.models import insert_user, get_latest_user, save_borrow_request
+from app.models import insert_user, get_latest_user, save_borrow_request, check_user_exists, get_user_by_id, get_borrowed_books_by_user, return_book_in_database, delete_borrow_record
 from app.utils import fetch_books
 from datetime import datetime, timedelta
 
@@ -16,22 +16,26 @@ def user():
         # 폼 데이터 받기
         user_id = request.form.get('user_id')
         user_name = request.form.get('user_name')
-        print(f"Received user_id: {user_id}, user_name: {user_name}")  # 디버깅
 
-        # MySQL에 데이터 삽입
-        if insert_user(user_id, user_name):
-            print("User inserted successfully")  # 디버깅
-            return redirect(url_for('main'))
-        else:
-            print("Failed to insert user")  # 디버깅
-            return "Error: 사용자를 저장할 수 없습니다.", 500
+        # 세션에 사용자 ID 저장
+        session['user_id'] = user_id
+
+        # 데이터베이스에 사용자 삽입 (중복 확인)
+        if not check_user_exists(user_id):
+            if not insert_user(user_id, user_name):
+                return "Error: 사용자를 저장할 수 없습니다.", 500
+
+        return redirect(url_for('main'))
     return render_template('user.html')
 
 # 메인 페이지 (허브 역할)
 @app.route('/main')
 def main():
-    user_data = get_latest_user()
-    user_id = user_data['user_id'] if user_data else None
+    if 'user_id' not in session:
+        return redirect(url_for('user'))  # 로그인 페이지로 이동
+
+    user_id = session['user_id']
+    user_data = get_user_by_id(user_id)
     user_name = user_data['user_name'] if user_data else None
 
     return render_template('main.html', user_id=user_id, user_name=user_name)
@@ -42,24 +46,49 @@ def management():
     return render_template('management.html')
 
 # 반납 페이지
-@app.route('/return')
+@app.route('/return', methods=['GET', 'POST'])
 def return_page():
-    return render_template('return.html')
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('user'))
+    
+    books = get_borrowed_books_by_user(user_id)
+
+    if request.method == 'POST':
+        # 도서 반납
+        book_id = request.form.get('book_id')  # 반납할 도서 ID
+        if return_book(book_id):
+            return redirect(url_for('return_page'))
+        else:
+            return "Error: 도서 반납 실패", 500
+
+    return render_template('return.html', books=books)
+
+@app.route('/return/<int:book_id>', methods=['POST'])
+def return_book(book_id):
+    try:
+        print(f"Attempting to return book with ID: {book_id}")  # 디버깅 로그
+        if delete_borrow_record(book_id):
+            print(f"Book with ID {book_id} successfully deleted.")  # 성공 로그
+            return jsonify({'success': True})
+        else:
+            print(f"Book with ID {book_id} not found or could not be deleted.")  # 실패 로그
+            return jsonify({'success': False, 'message': '도서를 찾을 수 없습니다.'}), 404
+    except Exception as e:
+        print(f"Error returning book: {e}")
+        return jsonify({'success': False, 'message': '서버에서 오류가 발생했습니다.'}), 500
 
 # 대출 페이지
 @app.route('/borrow', methods=['GET', 'POST'])
 def borrow():
     book = None
-    user = get_latest_user()
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('user'))
+
+    user = get_user_by_id(user_id)
 
     if request.method == 'GET':
-        # 학번 조회
-        user_id = request.args.get('user_id')  
-        if user_id:
-            user = get_user_by_id(user_id) 
-            if not user:
-                return "Error: 사용자 정보를 찾을 수 없습니다.", 404
-
         # 도서 검색
         keyword = request.args.get('keyword')
         if keyword:
@@ -82,9 +111,11 @@ def borrow():
         author = request.form.get('author')
         publisher = request.form.get('publisher')
 
-        # 데이터 유효성 검사
-        if not user_id or not book_title or not author or not publisher:
-            return jsonify({'success': False, 'message': '모든 필드를 입력하세요'}), 400
+        # 대출 중인 도서 수 확인
+        borrowed_books = get_borrowed_books_by_user(user_id)
+        borrowed_count = len(borrowed_books)
+        if borrowed_count >= 4:
+            return jsonify({'success': False, 'message': '대출 한도 초과'}), 200
 
         # 대출일과 반납일 계산
         borrow_date = datetime.now().strftime('%Y-%m-%d')
@@ -94,7 +125,7 @@ def borrow():
         if save_borrow_request(user_id, book_title, author, publisher, borrow_date, return_date):
             return jsonify({'success': True, 'return_date': return_date})
         else:
-            return jsonify({'success': False}), 500
+            return jsonify({'success': False, 'message': '대출 예약에 실패했습니다.'}), 500
 
     return render_template('borrow.html', book=book, user=user)
 
