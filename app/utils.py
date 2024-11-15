@@ -15,8 +15,8 @@ def fetch_books(keyword):
     }
     try:
         response = requests.get(api_url, params=params)
-        response.raise_for_status()  # 요청에 실패하면 예외 발생
-        return response.json()       # JSON 응답을 반환
+        response.raise_for_status()
+        return response.json()
     except requests.RequestException as e:
         print(f"API 요청 중 오류 발생: {e}")
         return None
