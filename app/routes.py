@@ -1,11 +1,11 @@
 from flask import render_template, request, redirect, url_for, jsonify, session
 from app import app
 from app.models import (
-    insert_user, get_user_by_id, save_borrow_request, check_user_exists,
+    insert_user, get_user_by_id, save_borrow_request, check_user_exists, get_reserved_books_by_user,
     get_borrowed_books_by_user, delete_borrow_record, update_borrow_count, save_reserve_request
 )
 from app.utils import fetch_books, fetch_new_books
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 
 # 공통 유틸리티 함수: 로그인 여부 확인
 def is_logged_in():
@@ -135,7 +135,49 @@ def borrow():
 # 사용자 페이지
 @app.route('/myBook')
 def myBook():
-    return render_template('myBook.html')
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('user'))
+
+    try:
+        # 대출 도서 목록 가져오기
+        borrowed_books = get_borrowed_books_by_user(user_id)
+
+        # 예약 도서 목록 가져오기
+        reserved_books = get_reserved_books_by_user(user_id)
+
+        # 사용자 정보 처리
+        user_name = get_user_by_id(user_id)['user_name']
+        year, class_num, student_num = user_id[0], user_id[1], user_id[2:]  # 학년, 반, 번호 분리
+
+        # 대출 도서 수 계산
+        total_borrowed = len(borrowed_books)
+
+        # 날짜에서 시간 제거
+        for book in reserved_books:
+            reserved_at = book['reserved_at']
+            if isinstance(reserved_at, datetime):
+                book['reserved_at'] = reserved_at.strftime('%Y-%m-%d')  # 날짜만 표시
+            elif isinstance(reserved_at, str):  # 혹시 문자열로 저장되어 있으면 포맷팅
+                try:
+                    reserved_at = datetime.strptime(reserved_at, '%Y-%m-%d %H:%M:%S')
+                    book['reserved_at'] = reserved_at.strftime('%Y-%m-%d')
+                except ValueError:
+                    book['reserved_at'] = reserved_at  # 형식이 이상하면 그대로 표시
+
+        return render_template(
+            'myBook.html',
+            user_name=user_name,
+            year=year,
+            class_num=class_num,
+            student_num=student_num,
+            total_borrowed=total_borrowed,
+            borrowed_books=borrowed_books,
+            reserved_books=reserved_books
+        )
+    except Exception as e:
+        print(f"Error in myBook: {e}")
+        return redirect(url_for('main'))
 
 # 책 검색 페이지
 @app.route('/search', methods=['GET'])

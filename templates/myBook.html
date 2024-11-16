@@ -13,15 +13,15 @@
         <div class="box">
             <img src="{{ url_for('static', filename='img/big-logo.png') }}" alt="" class="logo">
             <div class="panel">
-                <div class="user-box user ">
-                    <p class="user-name"><span>장하영</span>님</p>
+                <div class="user-box user">
+                    <p class="user-name"><span>{{ user_name }}</span>님</p>
                     <div class="user-class">
                         <p class="info-title">학년·반·번호</p>
-                        <p class="info-content">2학년 2반 11번</p>
+                        <p class="info-content">{{ year }}학년 {{ class_num }}반 {{ student_num }}번</p>
                     </div>
                     <div class="user-book">
                         <p class="info-title">도서 대출</p>
-                        <p class="info-content">3권</p>
+                        <p class="info-content">{{ total_borrowed }}권</p>
                     </div>
                 </div>
                 <div class="user-box read">
@@ -46,56 +46,56 @@
                 <h2>대출 현황</h2>
                 <div class="header">
                     <p class="book-info">도서 정보</p>
-                    <p style="margin-left: 60px;">대출일 </p>
+                    <p>대출일 </p>
                     <p  style="margin-left: 30px;">반납(예정)일</p>
                     <p>상태</p>
                     <p>남은 기간</p>
                 </div>
-                <ul class="borrow list">
-                    {% for book in books %}
-                    <div id="wrapper-{{ book.id }}" class="info-wrapper">
-                        <div class="info-box" id="book-{{ book.id }}">
-                            <div class="book-info">
-                                <p class="title">{{ book.book_title }}</p>
-                                <div class="sub-info">
-                                    <p class="writer">{{ book.author }}</p>
-                                    <p class="publisher">{{ book.publisher }}</p>
+                    <ul class="borrow list">
+                        {% for book in borrowed_books %}
+                        <div id="wrapper-{{ book.id }}" class="info-wrapper">
+                            <div class="info-box" id="book-{{ book.id }}">
+                                <div class="book-info">
+                                    <p class="title">{{ book.book_title }}</p>
+                                    <div class="sub-info">
+                                        <p class="writer">{{ book.author }}</p>
+                                        <p class="publisher">{{ book.publisher }}</p>
+                                    </div>
                                 </div>
+                                <p class="borrow date">{{ book.borrow_date }}</p>
+                                <p class="return date">{{ book.return_date }}</p>
+                                <p class="state {% if book.status == '연체' %}status-overdue{% else %}status-loan{% endif %}">
+                                    {{ book.status }}
+                                </p>
+                                <p class="remain">{{ book.days_left }}</p>
                             </div>
-                            <p class="borrow date">{{ book.borrow_date }}</p>
-                            <p class="return date">{{ book.return_date }}</p>
-                            <p class="state {% if book.status == '연체' %}status-overdue{% else %}status-loan{% endif %}">
-                                {{ book.status }}
-                            </p>
-                            <p class="remain">6일 남음</p>
+                            <hr>
                         </div>
-                        <hr>
+                        {% endfor %}
+                    </ul>
+
+                    <h2>예약 현황</h2>
+                    <div class="header">
+                        <p class="book-info">도서 정보</p>
+                        <p style="margin-right: 10px;">예약 신청일</p>
                     </div>
-                    {% endfor %}
-            
-            <div class="list-box">
-                <h2>예약 현황</h2>
-                <div class="header">
-                    <p class="book-info">도서 정보</p>
-                    <p style="margin-left: 70px;">예약 신청일</p>
-                </div>
-                <ul class="reserve list">
-                    {% for book in books %}
-                    <div id="wrapper-{{ book.id }}" class="info-wrapper">
-                        <div class="info-box" id="book-{{ book.id }}">
-                            <div class="book-info">
-                                <p class="title">{{ book.book_title }}</p>
-                                <div class="sub-info">
-                                    <p class="writer">{{ book.author }}</p>
-                                    <p class="publisher">{{ book.publisher }}</p>
+                    <ul class="reserve list">
+                        {% for book in reserved_books %}
+                        <div id="wrapper-{{ book.id }}" class="info-wrapper">
+                            <div class="info-box" id="book-{{ book.id }}">
+                                <div class="book-info">
+                                    <p class="title">{{ book.book_title }}</p>
+                                    <div class="sub-info">
+                                        <p class="writer">{{ book.author }}</p>
+                                        <p class="publisher">{{ book.publisher }}</p>
+                                    </div>
                                 </div>
+                                <p class="reserve date">{{ book.reserved_at }}</p>
                             </div>
-                            <p class="reserve date">{{ book.borrow_date }}</p>
+                            <hr>
                         </div>
-                        <hr>
-                    </div>
-                    {% endfor %}
-                </ul>
+                        {% endfor %}
+                    </ul>
             </div>
 
         </div>

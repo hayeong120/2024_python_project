@@ -81,7 +81,6 @@ def get_borrowed_books_by_user(user_id):
     connection = get_mysql_connection()
     try:
         with connection.cursor() as cursor:
-            # 쿼리 실행
             query = """
             SELECT id, book_title, author, publisher, borrow_date, return_date
             FROM borrow
@@ -90,19 +89,23 @@ def get_borrowed_books_by_user(user_id):
             cursor.execute(query, (user_id,))
             books = cursor.fetchall()
 
-            # 현재 날짜 가져오기
-            current_date = date.today()
+            today = date.today()
 
-            # 상태 계산
             for book in books:
-                # `return_date`가 이미 date 객체라면 직접 비교
-                if isinstance(book['return_date'], date):
-                    return_date = book['return_date']
+                return_date = book['return_date']
+                if isinstance(return_date, date):
+                    days_left = (return_date - today).days
+                    book['status'] = '연체' if days_left < 0 else '대출중'
+                    book['days_left'] = f"{days_left}일 남음" if days_left >= 0 else "연체"
                 else:
-                    return_date = datetime.strptime(book['return_date'], '%Y-%m-%d').date()
-
-                # 연체 여부 계산
-                book['status'] = '연체' if return_date < current_date else '대출중'
+                    try:
+                        return_date = datetime.strptime(return_date, '%Y-%m-%d').date()
+                        days_left = (return_date - today).days
+                        book['status'] = '연체' if days_left < 0 else '대출중'
+                        book['days_left'] = f"{days_left}일 남음" if days_left >= 0 else "연체"
+                    except Exception as e:
+                        book['status'] = "알 수 없음"
+                        book['days_left'] = "알 수 없음"
 
             return books
     except Exception as e:
@@ -110,7 +113,6 @@ def get_borrowed_books_by_user(user_id):
         return []
     finally:
         connection.close()
-
 
 def delete_borrow_record(book_id):
     """
@@ -179,6 +181,26 @@ def save_reserve_request(user_id, book_title, author, publisher, cover_image):
     except Exception as e:
         print(f"Error saving reservation: {e}")
         return False
+    finally:
+        connection.close()
+
+def get_reserved_books_by_user(user_id):
+    """
+    주어진 user_id로 예약된 도서 정보를 반환합니다.
+    """
+    connection = get_mysql_connection()
+    try:
+        with connection.cursor() as cursor:
+            query = """
+            SELECT id, book_title, author, publisher, reserved_at
+            FROM reservations
+            WHERE user_id = %s
+            """
+            cursor.execute(query, (user_id,))
+            return cursor.fetchall()
+    except Exception as e:
+        print(f"Error fetching reserved books: {e}")
+        return []
     finally:
         connection.close()
 
