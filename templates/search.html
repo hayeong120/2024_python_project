@@ -23,60 +23,17 @@
                 </form>
             </div>
 
+            <!-- 인기도서 -->
             <div class="top">
                 <h1>인기도서<span>TOP3</span></h1>
                 <div class="book-box">
-                    <div class="book" data-title="채식주의자" data-author="한강" data-publisher="창비">
-                        <img src="../static/img/sample-book.png" alt="채식주의자 cover">
-                        <div class="content">
-                            <div class="book-info">
-                                <p class="title">채식주의자</p>
-                                <div class="sub-info">
-                                    <p class="writer">한강</p>
-                                    <p class="publisher">창비</p>
-                                </div>
-                            </div>
-                            <button onclick="reserveBook(this)" class="button">대출<br>예약</button>
-                        </div>
-                    </div>
-                    
-                    <div class="book" data-title="뜨거운 홍차" data-author="김빵" data-publisher="문페이스">
-                        <img src="../static/img/sample-book2.png" alt="뜨거운 홍차 cover">
-                        <div class="content">
-                            <div class="book-info">
-                                <p class="title">뜨거운 홍차</p>
-                                <div class="sub-info">
-                                    <p class="writer">김빵 지음</p>
-                                    <p class="publisher">문페이스</p> 
-                                </div>
-                            </div>
-                            <button onclick="reserveBook(this)" class="button">대출<br>예약</button>
-                        </div>
-                    </div>
-
-                    <div class="book" data-title="용서받지 못한 밤" data-author="미치오 슈스케" data-publisher="놀">
-                        <img src="../static/img/sample-book3.png" alt="용서받지 못한 밤 cover">
-                        <div class="content">
-                            <div class="book-info">
-                                <p class="title">용서받지 못한 밤</p>
-                                <div class="sub-info">
-                                    <p class="writer">미치오 슈스케</p>
-                                    <p class="publisher">놀</p> 
-                                </div>
-                            </div>
-                            <button onclick="reserveBook(this)" class="button">대출<br>예약</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="new">
-                <h1>신착도서<span>New</span></h1>
-                <div class="book-box">
-                    {% for book in new_books %}
-                    <div class="book" data-title="{{ book.book_title }}" data-author="{{ book.author }}" data-publisher="{{ book.publisher }}">
-                        <img src="{{ book.cover_image }}" alt="{{ book.book_title }}" onclick="viewBookDetails('{{ book.book_title }}')">
+                    {% for book in popular_books %}
+                    <div class="book" 
+                         data-title="{{ book.book_title }}" 
+                         data-author="{{ book.author }}" 
+                         data-publisher="{{ book.publisher }}" 
+                         data-cover="{{ book.cover_image }}">
+                        <img src="{{ book.cover_image }}" alt="{{ book.book_title }} cover">
                         <div class="content">
                             <div class="book-info">
                                 <p class="title">{{ book.book_title }}</p>
@@ -85,30 +42,54 @@
                                     <p class="publisher">{{ book.publisher }}</p>
                                 </div>
                             </div>
-                            <button onclick="reserveBook(this)" class="button">대출<br>예약</button>
+                            <button class="button reserve-btn">대출<br>예약</button>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-            </div>  
-            
+            </div>
+
+            <!-- 신착도서 -->
+            <div class="new">
+                <h1>신착도서<span>New</span></h1>
+                <div class="book-box">
+                    {% for book in new_books %}
+                    <div class="book" 
+                        data-title="{{ book.title }}" 
+                        data-author="{{ book.author }}" 
+                        data-publisher="{{ book.publisher }}" 
+                        data-cover="{{ book.cover }}">
+                        <img src="{{ book.cover }}" alt="{{ book.title }} cover">
+                        <div class="content">
+                            <div class="book-info">
+                                <p class="title">{{ book.title }}</p>
+                                <div class="sub-info">
+                                    <p class="writer">{{ book.author }}</p>
+                                    <p class="publisher">{{ book.publisher }}</p>
+                                </div>
+                            </div>
+                            <button class="button reserve-btn">대출<br>예약</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- popup -->
-    <!-- 첫 번째 팝업 창 -->
+    <!-- 팝업 -->
     <div class="popup">
         <p>도서를 예약하시겠습니까?</p>
-        <button onclick="confirmReservation()">확인</button>
+        <button id="confirm-btn">확인</button>
         <button onclick="closePopup()">취소</button>
     </div>
 
-    <!-- 두 번째 팝업 창 (반납 완료 메시지) -->
     <div class="confirmation-popup">
-        <img src="../static/img/heart.png" alt="" class="heart-img">
+        <img src="{{ url_for('static', filename='img/heart.png') }}" alt="Success" class="heart-img">
         <p>대출이 예약되었습니다</p>
     </div>
 
-    <script src="../static/js/search.js"></script>
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
 </body>
 </html>

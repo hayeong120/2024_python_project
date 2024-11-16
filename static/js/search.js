@@ -1,67 +1,105 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // 클릭 이벤트 리스너
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('reserve-btn')) {
+            // 버튼이 포함된 책 요소를 찾기
+            const bookElement = e.target.closest('.book');
+            if (!bookElement) {
+                console.error('Book element not found');
+                return;
+            }
+
+            // 책 데이터 추출
+            const bookData = {
+                title: bookElement.dataset.title,
+                author: bookElement.dataset.author,
+                publisher: bookElement.dataset.publisher,
+                cover_image: bookElement.dataset.cover,
+            };
+
+            console.log('Book data:', bookData); // 디버깅용 출력
+
+            // 데이터 유효성 검사
+            if (!bookData.title || !bookData.author || !bookData.publisher || !bookData.cover_image) {
+                alert('필수 데이터가 누락되었습니다.');
+                return;
+            }
+
+            // 팝업 열기
+            openPopup(bookData);
+        }
+    });
+
+    // "확인" 버튼 클릭 이벤트
+    document.getElementById('confirm-btn').addEventListener('click', function () {
+        if (!selectedBookData) {
+            console.error('No selected book data');
+            return;
+        }
+
+        console.log('Sending data to server:', selectedBookData);
+
+        fetch('/reserve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(selectedBookData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Server response:', data); // 서버 응답 디버깅
+                if (data.success) {
+                    openConfirmationPopup();
+                } else {
+                    alert(data.message || '예약에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('서버 오류가 발생했습니다.');
+            })
+            .finally(() => closePopup());
+    });
+});
+
 let selectedBookData = null;
 
 // 팝업 열기
 function openPopup(bookData) {
     selectedBookData = bookData;
-    document.querySelector('.popup').style.display = 'block';
+
+    const popupElement = document.querySelector('.popup');
+    if (!popupElement) {
+        console.error('Popup element not found');
+        return;
+    }
+
+    popupElement.style.display = 'block';
 }
 
 // 팝업 닫기
 function closePopup() {
     selectedBookData = null;
-    document.querySelector('.popup').style.display = 'none';
+
+    const popupElement = document.querySelector('.popup');
+    if (!popupElement) {
+        console.error('Popup element not found');
+        return;
+    }
+
+    popupElement.style.display = 'none';
 }
 
-// 도서 예약 함수
-function reserveBook(buttonElement) {
-    const bookElement = buttonElement.closest('.book');
-    const bookData = {
-        title: bookElement.dataset.title,
-        author: bookElement.dataset.author,
-        publisher: bookElement.dataset.publisher,
-    };
-
-    openPopup(bookData);
-}
-
-// 예약 확인 후 서버 전송
-function confirmReservation() {
-    if (!selectedBookData) return;
-
-    console.log('Sending data:', selectedBookData); // 전송 데이터 확인
-
-    fetch('/search', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            title: selectedBookData.title,
-            author: selectedBookData.author,
-            publisher: selectedBookData.publisher,
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Server response:', data); // 서버 응답 확인
-            if (data.success) {
-                openConfirmationPopup(); // 예약 성공 팝업 표시
-            } else {
-                alert(data.message || '예약에 실패했습니다.');
-            }
-        })
-        .catch(error => {
-            console.error('Error reserving book:', error); // 오류 로그
-            alert('서버 오류가 발생했습니다.');
-        })
-        .finally(() => closePopup());
-}
-    
-// 예약 성공 팝업
+// 예약 성공 팝업 열기
 function openConfirmationPopup() {
     const popup = document.querySelector('.confirmation-popup');
-    popup.style.display = 'block';
+    if (!popup) {
+        console.error('Confirmation popup not found');
+        return;
+    }
 
+    popup.style.display = 'block';
     setTimeout(() => {
         popup.style.display = 'none';
     }, 2000);

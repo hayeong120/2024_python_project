@@ -2,9 +2,9 @@ from flask import render_template, request, redirect, url_for, jsonify, session
 from app import app
 from app.models import (
     insert_user, get_user_by_id, save_borrow_request, check_user_exists,
-    get_borrowed_books_by_user, delete_borrow_record, update_borrow_count
+    get_borrowed_books_by_user, delete_borrow_record, update_borrow_count, save_reserve_request
 )
-from app.utils import fetch_books
+from app.utils import fetch_books, fetch_new_books
 from datetime import datetime, timedelta
 
 # 공통 유틸리티 함수: 로그인 여부 확인
@@ -146,32 +146,52 @@ def myBook():
 @app.route('/search', methods=['GET'])
 def search_page():
     try:
-        new_books = fetch_books("신착")
+        new_books = fetch_new_books()[:3]  # 최대 3개만 가져오기
+        print(f"신착도서 데이터: {new_books}")  # 신착도서 데이터 출력
     except Exception as e:
+        print(f"Error fetching new books: {e}")
         new_books = []
+
     popular_books = [
-        {"book_title": "채식주의자", "author": "한강", "publisher": "창비", "cover_image": "sample-book.png"},
-        {"book_title": "뜨거운 홍차", "author": "김빵", "publisher": "문페이스", "cover_image": "sample-book2.png"},
-        {"book_title": "용서받지 못한 밤", "author": "미치오 슈스케", "publisher": "놀", "cover_image": "sample-book3.png"},
+        {"book_title": "채식주의자", "author": "한강", "publisher": "창비", "cover_image": "/static/img/sample-book.png"},
+        {"book_title": "뜨거운 홍차", "author": "김빵", "publisher": "문페이스", "cover_image": "/static/img/sample-book2.png"},
+        {"book_title": "용서받지 못한 밤", "author": "미치오 슈스케", "publisher": "놀", "cover_image": "/static/img/sample-book3.png"},
     ]
+
     return render_template('search.html', new_books=new_books, popular_books=popular_books)
 
 @app.route('/reserve', methods=['POST'])
 def reserve_book():
-    user_id = is_logged_in()
-    if not user_id:
-        return jsonify({'success': False, 'message': '로그인이 필요합니다.'}), 401
-
-    # 요청 데이터에서 책 정보 가져오기
     data = request.get_json()
-    book_title = data.get('title')
-    book_author = data.get('author')
-    book_publisher = data.get('publisher')
+    print(f"Received data for reservation: {data}")  # 디버깅용 출력
 
-    borrow_date = datetime.now().strftime('%Y-%m-%d')
-    return_date = (datetime.now() + timedelta(weeks=2)).strftime('%Y-%m-%d')
+    if not data:
+        return jsonify({'success': False, 'message': '필수 데이터 누락'}), 400
 
-    if save_borrow_request(user_id, book_title, book_author, book_publisher, borrow_date, return_date):
-        return jsonify({'success': True})
-    else:
-        return jsonify({'success': False, 'message': '예약 실패'}), 400
+    # 데이터 추출
+    title = data.get('title')
+    author = data.get('author')
+    publisher = data.get('publisher')
+    cover_image = data.get('cover_image')
+
+    # 필수 데이터 확인
+    if not title or not author or not publisher or not cover_image:
+        print("필수 데이터 누락")
+        return jsonify({'success': False, 'message': '필수 데이터 누락'}), 400
+
+    # 세션에서 user_id 가져오기
+    user_id = session.get('user_id')
+    if not user_id:
+        print("User ID 누락")
+        return jsonify({'success': False, 'message': '사용자 정보를 확인하세요.'}), 400
+
+    # 데이터베이스 저장 시도
+    try:
+        if save_reserve_request(user_id, title, author, publisher, cover_image):
+            return jsonify({'success': True})
+        else:
+            print("데이터베이스 저장 실패")
+            return jsonify({'success': False, 'message': '서버 오류 발생'}), 500
+    except Exception as e:
+        print(f"Error saving reservation: {e}")
+        return jsonify({'success': False, 'message': '서버 오류 발생'}), 500

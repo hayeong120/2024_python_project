@@ -143,3 +143,24 @@ def update_borrow_count(book_title):
         print(f"Error updating borrow_count: {e}")
     finally:
         connection.close()
+
+def save_reserve_request(user_id, book_title, author, publisher, cover_image):
+    """
+    reservations 테이블에 대출 예약 정보를 저장
+    """
+    connection = get_mysql_connection()
+    try:
+        with connection.cursor() as cursor:
+            query = """
+            INSERT INTO reservations (user_id, book_title, author, publisher, reserved_at, cover_image)
+            VALUES (%s, %s, %s, %s, NOW(), %s)
+            """
+            cursor.execute(query, (user_id, book_title, author, publisher, cover_image))
+        connection.commit()
+        return True
+    except Exception as e:
+        print(f"Error saving reservation: {e}")
+        return False
+    finally:
+        connection.close()
+
