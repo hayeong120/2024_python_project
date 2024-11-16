@@ -57,21 +57,16 @@ def management():
     return render_template('management.html')
 
 # 반납 페이지
-@app.route('/return', methods=['GET', 'POST'])
+@app.route('/return', methods=['GET'])
 def return_page():
-    user_id = is_logged_in()
+    user_id = session.get('user_id')
     if not user_id:
         return redirect(url_for('user'))
-    
-    books = get_borrowed_books_by_user(user_id)
 
-    # 도서 반납
-    if request.method == 'POST':
-        book_id = request.form.get('book_id')
-        if book_id and return_book_in_database(book_id):
-            return redirect(url_for('return_page'))
-        else:
-            return "Error: 도서 반납 실패", 500
+    # 사용자의 대출 도서 데이터 가져오기
+    books = get_borrowed_books_by_user(user_id)
+    print(f"Borrowed books: {books}")  # 디버깅용 출력
+
     return render_template('return.html', books=books)
 
 @app.route('/return/<int:book_id>', methods=['POST'])

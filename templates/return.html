@@ -19,6 +19,7 @@
                 <p>상태</p>
                 <p class="blank"></p>
             </div>
+
             <ul class="book-list">
                 {% for book in books %}
                 <div id="wrapper-{{ book.id }}" class="info-wrapper">
@@ -38,12 +39,12 @@
                         <form>
                             <button type="button" class="button" data-book-id="{{ book.id }}" onclick="openReturnPopup(this)">도서 반납</button>
                         </form>
-                        
                     </div>
                     <hr>
                 </div>
                 {% endfor %}
             </ul>
+
         </div>
     </div>
 

@@ -81,18 +81,36 @@ def get_borrowed_books_by_user(user_id):
     connection = get_mysql_connection()
     try:
         with connection.cursor() as cursor:
+            # 쿼리 실행
             query = """
-            SELECT book_title, author, publisher, borrow_date, return_date
+            SELECT id, book_title, author, publisher, borrow_date, return_date
             FROM borrow
-            WHERE user_id = %s AND return_date > CURRENT_DATE
+            WHERE user_id = %s
             """
             cursor.execute(query, (user_id,))
-            return cursor.fetchall()  # 대출 중인 책 목록 반환
+            books = cursor.fetchall()
+
+            # 현재 날짜 가져오기
+            current_date = date.today()
+
+            # 상태 계산
+            for book in books:
+                # `return_date`가 이미 date 객체라면 직접 비교
+                if isinstance(book['return_date'], date):
+                    return_date = book['return_date']
+                else:
+                    return_date = datetime.strptime(book['return_date'], '%Y-%m-%d').date()
+
+                # 연체 여부 계산
+                book['status'] = '연체' if return_date < current_date else '대출중'
+
+            return books
     except Exception as e:
         print(f"Error fetching borrowed books: {e}")
         return []
     finally:
         connection.close()
+
 
 def delete_borrow_record(book_id):
     """
