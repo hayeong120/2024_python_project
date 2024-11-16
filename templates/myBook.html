@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="logo icon" type="image/x-icon" href="../static/img/red.png" />
+    <link rel="logo icon" type="image/x-icon" href="{{ url_for('static', filename='img/red.png') }}" />
     <title>도담도담</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/myBook.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/myBook.css') }}">
 </head>
 <body>
     <div class="container">
         <div class="box">
-            <img src="../static/img/big-logo.png" alt="" class="logo">
+            <img src="{{ url_for('static', filename='img/big-logo.png') }}" alt="" class="logo">
             <div class="panel">
-                <div class="user-box user">
+                <div class="user-box user ">
                     <p class="user-name"><span>장하영</span>님</p>
                     <div class="user-class">
                         <p class="info-title">학년·반·번호</p>
@@ -52,45 +52,49 @@
                     <p>남은 기간</p>
                 </div>
                 <ul class="borrow list">
-                    <div class="info-box">
-                        <div class="book-info">
-                            <p class="title">채식주의자</p>
-                            <div class="sub-info">
-                                <p class="writer">한강 지음</p>
-                                <p class="publisher">창비</p> 
+                    {% for book in books %}
+                    <div id="wrapper-{{ book.id }}" class="info-wrapper">
+                        <div class="info-box" id="book-{{ book.id }}">
+                            <div class="book-info">
+                                <p class="title">{{ book.book_title }}</p>
+                                <div class="sub-info">
+                                    <p class="writer">{{ book.author }}</p>
+                                    <p class="publisher">{{ book.publisher }}</p>
+                                </div>
                             </div>
+                            <p class="borrow date">{{ book.borrow_date }}</p>
+                            <p class="return date">{{ book.return_date }}</p>
+                            <p class="state {% if book.status == '연체' %}status-overdue{% else %}status-loan{% endif %}">
+                                {{ book.status }}
+                            </p>
+                            <p class="remain">6일 남음</p>
                         </div>
-                        <p class="borrow date">2024-10-28</p>
-                        <p class="return date">2024-11-11</p>
-                        <p class="state">대출중</p>
-                        <p class="remain">6일 남음</p>
+                        <hr>
                     </div>
-                    <hr>
-                </ul>
-            </div>
+                    {% endfor %}
             
             <div class="list-box">
                 <h2>예약 현황</h2>
                 <div class="header">
                     <p class="book-info">도서 정보</p>
                     <p style="margin-left: 70px;">예약 신청일</p>
-                    <p style="margin-left: 30px;">반납(예정)일</p>
-                    <p>예약 순위</p>
                 </div>
                 <ul class="reserve list">
-                    <div class="info-box">
-                        <div class="book-info">
-                            <p class="title">채식주의자</p>
-                            <div class="sub-info">
-                                <p class="writer">한강 지음</p>
-                                <p class="publisher">창비</p> 
+                    {% for book in books %}
+                    <div id="wrapper-{{ book.id }}" class="info-wrapper">
+                        <div class="info-box" id="book-{{ book.id }}">
+                            <div class="book-info">
+                                <p class="title">{{ book.book_title }}</p>
+                                <div class="sub-info">
+                                    <p class="writer">{{ book.author }}</p>
+                                    <p class="publisher">{{ book.publisher }}</p>
+                                </div>
                             </div>
+                            <p class="reserve date">{{ book.borrow_date }}</p>
                         </div>
-                        <p class="reserve date">2024-10-28</p>
-                        <p class="return date">2024-11-11</p>
-                        <p class="ranking">3위</p>
+                        <hr>
                     </div>
-                    <hr>
+                    {% endfor %}
                 </ul>
             </div>
 

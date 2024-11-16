@@ -31,23 +31,27 @@ function confirmBorrow() {
 
 // 서버에 대출 요청
 function fetchBorrowRequest() {
+    console.log('Sending data:', Object.fromEntries(formData.entries())); // 폼 데이터 확인
+
     fetch(document.querySelector('#borrow-form').action, {
         method: 'POST',
         body: formData,
     })
         .then(response => {
             if (!response.ok) {
+                console.error('Network response was not ok', response.status);
                 throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then(data => {
+            console.log('Response data:', data); // 서버 응답 확인
+
             if (data.success) {
                 const returnDate = data.return_date;
                 document.getElementById('return-date').textContent = `반납일 : ${returnDate}`;
                 openBorrowConfirmationPopup();
             } else if (data.message && data.message.includes('대출 한도 초과')) {
-                console.log('대출 한도 초과 팝업 열기');
                 openBorrowLimitPopup();
             } else {
                 alert('대출 예약에 실패했습니다: ' + (data.message || '알 수 없는 오류'));

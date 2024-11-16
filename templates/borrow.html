@@ -34,7 +34,8 @@
                             <input type="hidden" name="book_title" value="{{ book.title }}">
                             <input type="hidden" name="author" value="{{ book.author }}">
                             <input type="hidden" name="publisher" value="{{ book.publisher }}">
-                            <input type="submit" class="button" onclick="openPopup()" value="대출예약"></input>
+                            <input type="hidden" name="cover_image" value="{{ book.cover }}">
+                            <input type="submit" class="button" onclick="openPopup()" value="대출"></input>
                         </form>
                     </div>
                     <div class="sub-info">
